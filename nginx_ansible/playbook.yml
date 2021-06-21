@@ -1,0 +1,9 @@
+---
+- name: Install nginx
+  hosts: webserver
+  remote_user: rus
+  become: yes
+  roles:
+    - nginx
+
+# ansible-playbook playbook.yml -i inventory.yml --diff --check --ask-become-pass

@@ -1,0 +1,6 @@
+---
+- name: Set up instance
+  hosts: db_instance
+  remote_user: rus
+  roles:
+    - common

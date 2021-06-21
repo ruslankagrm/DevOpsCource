@@ -1,0 +1,40 @@
+---
+
+- name: Copy nginx file
+  ansible.builtin.copy:
+    src: ./nginx.conf
+    dest: /etc/nginx/
+    owner: root
+    mode: '777'
+
+- name: Copy index conf file
+  ansible.builtin.copy:
+    src: ./index.html
+    dest: /usr/share/nginx/var/www/data/
+    owner: root
+    mode: '777'
+
+- name: Install Nginx
+  apt:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "Debian"
+  notify:
+    - nginx systemd
+
+- name: Check NGINX configs
+  shell: "/usr/sbin/nginx -t"
+  register: nginx_config_status
+
+- name: NGINX test status
+  debug:
+    msg: "{{ nginx_config_status.rc }}"
+
+- name: Service NGINX restart and enable on boot
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  when: nginx_config_status.rc == 0

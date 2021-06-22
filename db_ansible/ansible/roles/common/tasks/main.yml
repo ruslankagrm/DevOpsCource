@@ -1,7 +1,7 @@
 ---
-- name: Install
+- name: Install basic packeges
   apt:
-    name: "{{ package_item }}"
+    name: "{{ item }}"
     update_cache: yes
     autoremove: yes
   with_items:

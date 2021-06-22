@@ -1,5 +1,4 @@
 ---
-
 - name: Copy nginx file
   ansible.builtin.copy:
     src: ./nginx.conf
